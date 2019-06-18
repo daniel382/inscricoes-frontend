@@ -1,0 +1,10 @@
+.page-title {
+	margin-bottom: 15px;
+    color: #656565;
+}
+
+.card { border: none }
+
+.form-control { border: 1px solid #777 }
+
+.nav-tabs { margin-bottom: 15px }
