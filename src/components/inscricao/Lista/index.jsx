@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
-import { Row, Col, Table, Card } from 'reactstrap'
+import { Row, Col, Table, Card, FormGroup, Input } from 'reactstrap'
 
 import InscricaoServices from '../Services'
 import breadcrumb from './BreadCrumb'
-import ViewBreadCrumb from '../../../views/BreadCrumb';
+import ViewBreadCrumb from '../../../views/BreadCrumb'
 
 class ListComponent extends Component {
     constructor(props) {
@@ -22,8 +22,20 @@ class ListComponent extends Component {
         this.setState({ candidatos })
     }
 
-    renderTableBody() {
-        return this.state.candidatos.map((candidato, index) => (
+    setFiltro = event => this.setState({ filtro: event.target.value })
+
+    filter = candidato => {
+        const { filtro } = this.state
+        const regex = new RegExp(filtro, 'i')
+        
+        return regex.test(candidato.nome) || regex.test(candidato.rg)
+    }
+
+    renderTableRow() {
+        const { filtro, candidatos } = this.state
+        const lista = filtro ? candidatos.filter(this.filter) : candidatos
+
+        return lista.map((candidato, index) => (
             <tr key={ candidato._id}>
                 <th>{ index + 1 }</th>
                     <td>{ candidato.nome }</td>
@@ -44,6 +56,18 @@ class ListComponent extends Component {
                 <Row>
                     <Col>
                         <Card body>
+                            <Row>
+                                <Col lg={6}>
+                                    <FormGroup>
+                                        <Input 
+                                            onChange={ this.setFiltro }
+                                            placeholder="Buscar... (Nome ou RG)"
+                                            value={ this.state.filtro }
+                                        />
+                                    </FormGroup>
+                                </Col>
+                            </Row>
+
                             <Table hover>
                                 <thead>
                                     <tr>
@@ -56,7 +80,7 @@ class ListComponent extends Component {
                                 </thead>
 
                                 <tbody>
-                                    { this.renderTableBody() }
+                                    { this.renderTableRow() }
                                 </tbody>
                             </Table>
                         </Card>
