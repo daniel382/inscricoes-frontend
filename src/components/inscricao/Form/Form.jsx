@@ -42,11 +42,16 @@ class FormInscricao extends Component {
 			this.setState({ activeTab: tab })
 	}
 
-	save() {
-		const response = InscricaoServices.post(this.state.candidato)
-		console.log(response)
+	async save() {
+		let response
 		let { showModal, title, message, activeTab } = this.state
 		showModal = true
+
+		try {
+			response = await InscricaoServices.post(this.state.candidato)
+		} catch(err) {
+			throw err
+		}
 
 		if(response.status === 201) {
 			this.clear()
