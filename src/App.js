@@ -6,6 +6,7 @@ import ViewHeader from './views/Header'
 import ViewSidebar from './views/Sidebar/Sidebar'
 
 import FormInscricao from './components/inscricao/Form/Form'
+import ListComponent from './components/inscricao/Lista';
 
 class App extends Component {
 	constructor(props) {
@@ -32,7 +33,8 @@ class App extends Component {
 
 					<div className="main">
 						<Container fluid>
-							<FormInscricao />
+							{/* <FormInscricao /> */}
+							<ListComponent />
 						</Container>
 					</div>
 				</div>

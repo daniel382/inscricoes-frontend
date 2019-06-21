@@ -10,7 +10,7 @@ class InscricaoServices {
 
 	post(candidato, lab = false) {
 		candidato.pontuar()
-		
+
 		const api = this.devAPI // lab ? this.apiLAB : this.api
 		const config = {
 			method: 'post',
@@ -19,6 +19,10 @@ class InscricaoServices {
 		}
 
 		return fetch(api, config)
+	}
+
+	getAll() {
+		return fetch(this.devAPI)
 	}
 }
 
