@@ -1,12 +1,12 @@
 import React, { Component, Fragment } from 'react'
 import { Container } from 'reactstrap'
+import { BrowserRouter } from 'react-router-dom'
 
 import './App.css'
+import '@fortawesome/fontawesome-free/css/all.min.css'
 import ViewHeader from './views/Header'
 import ViewSidebar from './views/Sidebar/Sidebar'
-
-import FormInscricao from './components/inscricao/Form/Form'
-import ListComponent from './components/inscricao/Lista';
+import Routes from './components/Routes'
 
 class App extends Component {
 	constructor(props) {
@@ -28,16 +28,18 @@ class App extends Component {
 		return (
 			<Fragment>
 				<ViewHeader toggle={ this.toggle } />
-				<div className="wrapper">
-					<ViewSidebar show={ this.state.collapsed } />
 
-					<div className="main">
-						<Container fluid>
-							{/* <FormInscricao /> */}
-							<ListComponent />
-						</Container>
+				<BrowserRouter>
+					<div className="wrapper">
+						<ViewSidebar show={ this.state.collapsed } />
+
+						<div className="main">
+							<Container fluid>
+								<Routes />
+							</Container>
+						</div>
 					</div>
-				</div>
+				</BrowserRouter>
 			</Fragment>
 		)
 	}

@@ -1,5 +1,6 @@
 import React from 'react'
-import { Nav, NavItem, NavLink } from 'reactstrap'
+import { Nav, NavItem } from 'reactstrap'
+import { Link } from 'react-router-dom'
 
 import './Sidebar.css'
 
@@ -11,16 +12,16 @@ function ViewSidebar(props) {
 
 				<Nav vertical>
 					<NavItem>
-						<NavLink href="#/">Home</NavLink>
+						<Link className="nav-link" to="/">Cadastro</Link>
 					</NavItem>
 					<NavItem>
-						<NavLink href="#/">Inscrições</NavLink>
+						<Link className="nav-link" to="/listar">Listar</Link>
 					</NavItem>
 					<NavItem>
-						<NavLink href="#/" disabled>Outros</NavLink>
+						<Link className="nav-link disabled" to="/classificar">Classificar</Link>
 					</NavItem>
 					<NavItem>
-						<NavLink href="#/">Sair</NavLink>
+						<Link className="nav-link" to="#/">Sair</Link>
 					</NavItem>
 				</Nav>
 			</nav>

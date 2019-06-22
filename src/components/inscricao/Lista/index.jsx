@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Row, Col, Table, Card, FormGroup, Input } from 'reactstrap'
+import { Row, Col, Table, Card, FormGroup, Input, Button } from 'reactstrap'
 
 import InscricaoServices from '../Services'
 import breadcrumb from './BreadCrumb'
@@ -34,6 +34,8 @@ class ListComponent extends Component {
     renderTableRow() {
         const { filtro, candidatos } = this.state
         const lista = filtro ? candidatos.filter(this.filter) : candidatos
+        const edit = <Button color="success"><i className="fa fa-pen"></i></Button>
+        const detalhes = <Button color="primary"><i className="fa fa-trash"></i></Button>
 
         return lista.map((candidato, index) => (
             <tr key={ candidato._id}>
@@ -42,6 +44,7 @@ class ListComponent extends Component {
                     <td>{ candidato.rg }</td>
                     <td>{ candidato.pontuacao.toFixed(1) }</td>
                     <td>{ candidato.colocacao }</td>
+                    <td>{ edit } { detalhes }</td>
                 </tr>
             )
         )
@@ -72,10 +75,11 @@ class ListComponent extends Component {
                                 <thead>
                                     <tr>
                                         <th>#</th>
-                                        <th>Nome</th>
-                                        <th>RG</th>
-                                        <th>Pontuação</th>
-                                        <th>Colocação</th>
+                                        <td>Nome</td>
+                                        <td>RG</td>
+                                        <td>Pontuação</td>
+                                        <td>Colocação</td>
+                                        <td>Ações</td>
                                     </tr>
                                 </thead>
 

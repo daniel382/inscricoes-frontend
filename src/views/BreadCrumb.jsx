@@ -1,5 +1,6 @@
 import React from 'react'
 import { Row, Breadcrumb, BreadcrumbItem } from 'reactstrap'
+import { Link } from 'react-router-dom'
 
 function ViewBreadCrumb(props) {
 	return (
@@ -9,7 +10,7 @@ function ViewBreadCrumb(props) {
 					props.breadcrumb.map((item, index) =>
 						(item.active)
 							? <BreadcrumbItem key={ index } active>{ item.label }</BreadcrumbItem>
-							: <BreadcrumbItem key={ index }><a href={ item.ref }>{ item.label }</a></BreadcrumbItem>
+							: <BreadcrumbItem key={ index }><Link to={ item.ref }>{ item.label }</Link></BreadcrumbItem>
 					)
 				}
 			</Breadcrumb>

@@ -1,6 +1,6 @@
 const breadcrumb = [{
 	label: 'Home',
-	ref: '#/',
+	ref: '/',
 	active: false
 }, {
 	label: 'Inscrições',
@@ -8,7 +8,7 @@ const breadcrumb = [{
 	active: false
 }, {
 	label: 'Cadastro',
-	ref: '#/',
+	ref: '/',
 	active: true
 }]
 
