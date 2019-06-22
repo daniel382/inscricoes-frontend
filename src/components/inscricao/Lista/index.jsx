@@ -5,7 +5,7 @@ import InscricaoServices from '../Services'
 import breadcrumb from './BreadCrumb'
 import ViewBreadCrumb from '../../../views/BreadCrumb'
 import ModalView from '../../../views/Modal'
-import DetailsComponent from './Details';
+import { Link } from 'react-router-dom'
 
 class ListComponent extends Component {
     constructor(props) {
@@ -17,8 +17,7 @@ class ListComponent extends Component {
 
             title: '',
             message: '',
-            showModal: false,
-            hasDetail: false
+            showModal: false
         }
 
         this.handleModal = this.handleModal.bind(this)
@@ -40,10 +39,8 @@ class ListComponent extends Component {
         }
     }
 
-    setFiltro = event => {
+    setFiltro = event =>
         this.setState({ filtro: event.target.value })
-        this.details = null
-    }
 
     filter = candidato => {
         const { filtro } = this.state
@@ -52,9 +49,8 @@ class ListComponent extends Component {
         return regex.test(candidato.nome) || regex.test(candidato.rg)
     }
 
-    handleModal = () => this.setState({ showModal: !this.state.showModal })
-
-    clearDetails = () => this.setState({ hasDetail: false })
+    handleModal = () =>
+        this.setState({ showModal: !this.state.showModal })
 
     thereAreMessage() {
 		const { title, message, showModal } = this.state
@@ -66,21 +62,6 @@ class ListComponent extends Component {
 		}
 
 		return null
-    }
-
-    details = null
-    
-    moreInfo = id => {
-        const { candidatos } = this.state
-        const candidato = candidatos.filter(can => can._id === id)
-        
-        if(candidato.length) {
-            this.setState({ showModal: true, hasDetail: true })
-
-            this.details = (
-                <DetailsComponent candidato={ candidato } ok={ this.clearDetails } />
-            )
-        }
     }
 
     renderTableRow() {
@@ -98,9 +79,12 @@ class ListComponent extends Component {
                             <i className="fa fa-pen"></i>
                         </Button>
                         {' '}
-                        <Button onClick={ () => this.moreInfo(candidato._id)} color="primary">
+                        <Link 
+                            to={`/detalhes/${candidato._id}`}
+                            className="btn btn-primary"
+                        >
                             <i className="fa fa-info"></i>
-                        </Button>
+                        </Link>
                     </td>
                 </tr>
             )
@@ -108,7 +92,7 @@ class ListComponent extends Component {
     }
 
     render() {
-        if(!this.state.hasDetail) return (
+        return (
             <>
                 { this.thereAreMessage() }
                 
@@ -150,8 +134,6 @@ class ListComponent extends Component {
                 </Row>
             </>
         )
-
-        return this.details
     }
 }
 

@@ -24,6 +24,10 @@ class InscricaoServices {
 	getAll() {
 		return fetch(this.devAPI)
 	}
+
+	getById(id) {
+		return fetch(`${this.devAPI}/${id}`)
+	}
 }
 
 export default new InscricaoServices()
