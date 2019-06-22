@@ -4,7 +4,7 @@ import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap'
 const ModalView = props =>
 	<Modal isOpen={ true }>
 		<ModalHeader>{ props.title }</ModalHeader>
-		<ModalBody>{ props.message }</ModalBody>
+		<ModalBody>{ props.message || props.children }</ModalBody>
 		<ModalFooter>
 			<Button color='primary' onClick={ props.toggle }>Ok</Button>
 		</ModalFooter>

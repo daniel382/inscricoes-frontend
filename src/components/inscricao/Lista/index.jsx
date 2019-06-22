@@ -4,7 +4,8 @@ import { Row, Col, Table, Card, FormGroup, Input, Button } from 'reactstrap'
 import InscricaoServices from '../Services'
 import breadcrumb from './BreadCrumb'
 import ViewBreadCrumb from '../../../views/BreadCrumb'
-import ModalView from '../../../views/Modal';
+import ModalView from '../../../views/Modal'
+import DetailsComponent from './Details';
 
 class ListComponent extends Component {
     constructor(props) {
@@ -16,8 +17,11 @@ class ListComponent extends Component {
 
             title: '',
             message: '',
-            showModal: false
+            showModal: false,
+            hasDetail: false
         }
+
+        this.handleModal = this.handleModal.bind(this)
     }
 
     async componentDidMount() {
@@ -36,7 +40,10 @@ class ListComponent extends Component {
         }
     }
 
-    setFiltro = event => this.setState({ filtro: event.target.value })
+    setFiltro = event => {
+        this.setState({ filtro: event.target.value })
+        this.details = null
+    }
 
     filter = candidato => {
         const { filtro } = this.state
@@ -46,6 +53,8 @@ class ListComponent extends Component {
     }
 
     handleModal = () => this.setState({ showModal: !this.state.showModal })
+
+    clearDetails = () => this.setState({ hasDetail: false })
 
     thereAreMessage() {
 		const { title, message, showModal } = this.state
@@ -57,31 +66,52 @@ class ListComponent extends Component {
 		}
 
 		return null
-	}
+    }
+
+    details = null
+    
+    moreInfo = id => {
+        const { candidatos } = this.state
+        const candidato = candidatos.filter(can => can._id === id)
+        
+        if(candidato.length) {
+            this.setState({ showModal: true, hasDetail: true })
+
+            this.details = (
+                <DetailsComponent candidato={ candidato } ok={ this.clearDetails } />
+            )
+        }
+    }
 
     renderTableRow() {
         const { filtro, candidatos } = this.state
         const lista = filtro ? candidatos.filter(this.filter) : candidatos
-        const edit = <Button color="success"><i className="fa fa-pen"></i></Button>
-        const detalhes = <Button color="primary"><i className="fa fa-info"></i></Button>
 
-        return lista.map((candidato, index) => (
-            <tr key={ candidato._id}>
-                <th>{ index + 1 }</th>
+        return lista.map(candidato => (
+                <tr key={ candidato._id}>
                     <td>{ candidato.nome }</td>
                     <td>{ candidato.rg }</td>
                     <td>{ candidato.pontuacao.toFixed(1) }</td>
                     <td>{ candidato.colocacao }</td>
-                    <td>{ edit } { detalhes }</td>
+                    <td>
+                        <Button color="success">
+                            <i className="fa fa-pen"></i>
+                        </Button>
+                        {' '}
+                        <Button onClick={ () => this.moreInfo(candidato._id)} color="primary">
+                            <i className="fa fa-info"></i>
+                        </Button>
+                    </td>
                 </tr>
             )
         )
     }
 
     render() {
-        return (
+        if(!this.state.hasDetail) return (
             <>
                 { this.thereAreMessage() }
+                
                 <ViewBreadCrumb breadcrumb={ breadcrumb } />
                 <h1 className='page-title'>Listagem Geral</h1>
 
@@ -103,12 +133,11 @@ class ListComponent extends Component {
                             <Table hover>
                                 <thead>
                                     <tr>
-                                        <th>#</th>
-                                        <td>Nome</td>
-                                        <td>RG</td>
-                                        <td>Pontuação</td>
-                                        <td>Colocação</td>
-                                        <td>Ações</td>
+                                        <th>Nome</th>
+                                        <th>RG</th>
+                                        <th>Pontuação</th>
+                                        <th>Colocação</th>
+                                        <th>Ações</th>
                                     </tr>
                                 </thead>
 
@@ -121,6 +150,8 @@ class ListComponent extends Component {
                 </Row>
             </>
         )
+
+        return this.details
     }
 }
 
