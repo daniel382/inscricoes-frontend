@@ -4,6 +4,7 @@ import { Row, Col, Table, Card, FormGroup, Input, Button } from 'reactstrap'
 import InscricaoServices from '../Services'
 import breadcrumb from './BreadCrumb'
 import ViewBreadCrumb from '../../../views/BreadCrumb'
+import ModalView from '../../../views/Modal';
 
 class ListComponent extends Component {
     constructor(props) {
@@ -11,15 +12,28 @@ class ListComponent extends Component {
 
         this.state = {
             candidatos: [],
-            filtro: ''
+            filtro: '',
+
+            title: '',
+            message: '',
+            showModal: false
         }
     }
 
     async componentDidMount() {
-        const response = await InscricaoServices.getAll()
-        const candidatos = await response.json()
-        
-        this.setState({ candidatos })
+        try {
+            const response = await InscricaoServices.getAll()
+            const candidatos = await response.json()
+            
+            this.setState({ candidatos })
+        } catch(err) {
+            let { showModal, title, message } = this.state
+            showModal = true
+            title = 'Erro'
+            message = 'Não foi possível carregar os dados!'
+
+            this.setState({ showModal, title, message })
+        }
     }
 
     setFiltro = event => this.setState({ filtro: event.target.value })
@@ -31,11 +45,25 @@ class ListComponent extends Component {
         return regex.test(candidato.nome) || regex.test(candidato.rg)
     }
 
+    handleModal = () => this.setState({ showModal: !this.state.showModal })
+
+    thereAreMessage() {
+		const { title, message, showModal } = this.state
+
+		if(title && message && showModal) {
+			return (
+				<ModalView title={title} message={message} toggle={ this.handleModal } />
+			)
+		}
+
+		return null
+	}
+
     renderTableRow() {
         const { filtro, candidatos } = this.state
         const lista = filtro ? candidatos.filter(this.filter) : candidatos
         const edit = <Button color="success"><i className="fa fa-pen"></i></Button>
-        const detalhes = <Button color="primary"><i className="fa fa-trash"></i></Button>
+        const detalhes = <Button color="primary"><i className="fa fa-info"></i></Button>
 
         return lista.map((candidato, index) => (
             <tr key={ candidato._id}>
@@ -53,6 +81,7 @@ class ListComponent extends Component {
     render() {
         return (
             <>
+                { this.thereAreMessage() }
                 <ViewBreadCrumb breadcrumb={ breadcrumb } />
                 <h1 className='page-title'>Listagem Geral</h1>
 
