@@ -48,7 +48,7 @@ class FormInscricao extends Component {
 		showModal = true
 
 		try {
-			response = await InscricaoServices.post(this.state.candidato)
+			response = await InscricaoServices.post(this.state.candidato, this.props.lab)
 		} catch(err) {
 			throw err
 		}

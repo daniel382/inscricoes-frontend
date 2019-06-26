@@ -8,6 +8,11 @@ function ViewSidebar(props) {
 	if(!props.show)
 		return (
 			<nav id="sidebar">
+				<div id="lab" className="form-group d-flex align-items-center">
+					<label>Lab Info</label>
+					<input type="checkbox" className="form-control" onChange={ props.handleLab } />
+				</div>
+
 				<hr />
 
 				<Nav vertical>
@@ -18,7 +23,7 @@ function ViewSidebar(props) {
 						<Link className="nav-link" to="/listar">Listar</Link>
 					</NavItem>
 					<NavItem>
-						<Link className="nav-link disabled" to="/classificar">Classificar</Link>
+						<Link className="nav-link" to="/classificar">Classificar</Link>
 					</NavItem>
 					<NavItem>
 						<Link className="nav-link" to="#/">Sair</Link>

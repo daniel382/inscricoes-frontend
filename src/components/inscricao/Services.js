@@ -21,12 +21,25 @@ class InscricaoServices {
 		return fetch(api, config)
 	}
 
-	getAll() {
+	getAll(params) {
+		if(params) return fetch(`${this.devAPI}?${params}`)
+
 		return fetch(this.devAPI)
 	}
 
 	getById(id) {
 		return fetch(`${this.devAPI}/${id}`)
+	}
+
+	updateOne(candidato) {
+		const id = candidato._id
+		const config = {
+			method: 'put',
+			body: JSON.stringify(candidato),
+			headers: { 'Content-Type': 'application/json' }
+		}
+
+		return fetch(`${this.devAPI}/${id}`, config)
 	}
 }
 

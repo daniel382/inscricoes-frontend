@@ -13,29 +13,27 @@ class App extends Component {
 		super(props)
 
 		this.state = {
-			collapsed: false
+			collapsed: false,
+			lab: false
 		}
-
-		this.toggle = this.toggle.bind(this)
 	}
 
-	toggle() {
-		const collapsed = !this.state.collapsed
-		this.setState({ collapsed })
-	}
+	handleLab = () => this.setState({ lab: !this.state.lab })
+	toggle = () => this.setState({ collapsed: !this.state.collapsed })
 
 	render() {
+		const { collapsed, lab } = this.state
 		return (
 			<Fragment>
 				<ViewHeader toggle={ this.toggle } />
 
 				<BrowserRouter>
 					<div className="wrapper">
-						<ViewSidebar show={ this.state.collapsed } />
+						<ViewSidebar show={ collapsed } handleLab={ this.handleLab } />
 
 						<div className="main">
 							<Container fluid>
-								<Routes />
+								<Routes lab={ lab }/>
 							</Container>
 						</div>
 					</div>

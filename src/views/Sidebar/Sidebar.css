@@ -8,6 +8,20 @@
     background-color: #f1f4f7;
 }
 
+#lab {
+	margin-top: 16px;
+	padding: 0 10px;
+}
+
+#lab label {
+	margin: 0;
+}
+#lab input[type="checkbox"] {
+	width: 15px;
+    height: 15px;
+    margin-left: 10px;
+}
+
 @media (max-width: 768px) {
 	#sidebar {
 		min-width: 100%;

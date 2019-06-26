@@ -36,6 +36,7 @@ class ListComponent extends Component {
             message = 'Não foi possível carregar os dados!'
 
             this.setState({ showModal, title, message })
+            throw err
         }
     }
 
